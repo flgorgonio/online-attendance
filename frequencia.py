@@ -52,8 +52,10 @@ numStudents = len(wordList) // 2
 for i in range(numStudents):
 	name = wordList[2*i]
 	matr = wordList[2*i+1]
-	index = (i // 10) + 1
-	matr = matr[:-index]
+	if i < 9:
+		matr = matr[:-1]
+	else:
+		matr = matr[:-2]
 	students[matr] = name
 
 print()
