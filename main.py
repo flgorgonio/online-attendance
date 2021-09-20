@@ -1,4 +1,5 @@
 import PyPDF2
+import csv
 
 
 pdfFileObj = open("listapresenca_DCT1101_2021.1_01.pdf", "rb")
@@ -65,3 +66,42 @@ for stud in students:
 	print(stud, students[stud])
 
 print()
+
+# Obtém dados de presença
+
+signatures = {}
+with open('DCT1101 ALP.csv', encoding='utf-8') as fileCSV:
+  reader = csv.DictReader(fileCSV, delimiter=',')
+  for row in reader:
+    code = len(signatures) + 1
+    if code not in signatures:
+      signatures[code] = row
+
+print("Datas")
+attendance = {}
+for row in signatures:
+  date = signatures[row]['Carimbo de data/hora'][:10]
+  student = signatures[row]['Matrícula']
+  print(date)
+  print(student)
+  if date not in attendance:
+    attendance[date] = []
+  attendance[date].append(student)
+
+print()
+print("Frequência Final - Alunos Ausentes")
+print()
+for date in attendance:
+  print(date)
+  for stud in students:
+    if stud not in attendance[date]:
+      print(students[stud])
+    else:
+      print("-")
+  print()
+  input()
+
+  ### Pegar uma lista do primeiro dia de aula
+  ### no iMac tem
+
+  
