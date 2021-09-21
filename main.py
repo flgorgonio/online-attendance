@@ -2,7 +2,7 @@ import PyPDF2
 import csv
 
 
-pdfFileObj = open("listapresenca_DCT1101_2021.1_01.pdf", "rb")
+pdfFileObj = open("listapresenca_DCT1101_13072021.pdf", "rb")
 pdfReader = PyPDF2.PdfFileReader(pdfFileObj)
 numPages = pdfReader.numPages
 
@@ -92,16 +92,22 @@ print()
 print("Frequência Final - Alunos Ausentes")
 print()
 for date in attendance:
-  print(date)
+  file_name = date.replace('/', '')
+  file_name = file_name[4:8] + '_' + file_name[2:4] + '_' + file_name[0:2]
+  file_name = file_name + ".txt"
+  date_file = open(file_name, "wt")
+  date_file.write("Algoritmos e Lógica de Programação - 2021.1\n")
+  date_file.write("Lista de Frequência - ")
+  date_file.write(file_name[:-4])
+  date_file.write("\n")
+  date_file.write("\nPresentes\n")
+  for stud in students:
+    if stud in attendance[date]:
+      date_file.write(students[stud])
+      date_file.write("\n")
+  date_file.write("\nAusentes\n")
   for stud in students:
     if stud not in attendance[date]:
-      print(students[stud])
-    else:
-      print("-")
-  print()
-  input()
-
-  ### Pegar uma lista do primeiro dia de aula
-  ### no iMac tem
-
-  
+      date_file.write(students[stud])
+      date_file.write("\n")
+  date_file.close()
